@@ -145,12 +145,10 @@ module.exports = function (grunt) {
             i,
             current,
             next;
-        
         opts = opts || {};
         opts.env = opts.env || process.env;
         opts.cwd = opts.cwd || process.cwd();
         commands = Array.isArray(commands) ? commands : [commands];
-        
         if (opts.cwd) {
             grunt.verbose.ok(opts.cwd);
         }
@@ -165,9 +163,7 @@ module.exports = function (grunt) {
                     child,
                     stdout = new Buffer(""),
                     stderr = new Buffer("");
-                
                 grunt.verbose.ok(command);
-                
                 child = child_process.spawn(cmd, args, opts);
                 children.push(child);
                 

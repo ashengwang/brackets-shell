@@ -206,7 +206,10 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	if (GetFileAttributes(appPath) != INVALID_FILE_ATTRIBUTES) {
 		wcscpy(szInitialUrl, appPath);
 	}
-
+	//by asheng for test!
+	//wcscpy(szInitialUrl, L"http://www.nextai.cn/nextai.rar");
+	//wcscpy(szInitialUrl, L"http://www.nextai.cn/images/aboutus01.jpg");
+	
 	if (!wcslen(szInitialUrl)) {
 		// Look for .\www\index.html next
 		wcscpy(pathRoot, L"\\www\\index.html");

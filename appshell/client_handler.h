@@ -25,6 +25,7 @@
 // ClientHandler implementation.
 class ClientHandler : public CefClient,
                       public CefLifeSpanHandler,
+					  public CefDownloadHandler,
                       public CefDragHandler,
                       public CefLoadHandler,
                       public CefRequestHandler,
@@ -75,6 +76,10 @@ public:
 
   // CefClient methods
   virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE {
+    return this;
+  }
+  //add by asheng
+  virtual CefRefPtr<CefDownloadHandler> GetDownloadHandler() OVERRIDE {
     return this;
   }
   virtual CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE {
@@ -156,6 +161,16 @@ public:
                                 const CefString& source,
                                 int line) OVERRIDE;
 
+    // CefDownloadHandler methods
+  virtual void OnBeforeDownload(
+      CefRefPtr<CefBrowser> browser,
+      CefRefPtr<CefDownloadItem> download_item,
+      const CefString& suggested_name,
+      CefRefPtr<CefBeforeDownloadCallback> callback) OVERRIDE;
+  virtual void OnDownloadUpdated(
+      CefRefPtr<CefBrowser> browser,
+      CefRefPtr<CefDownloadItem> download_item,
+      CefRefPtr<CefDownloadItemCallback> callback) OVERRIDE;
   // CefGeolocationHandler methods
   virtual bool OnRequestGeolocationPermission(
       CefRefPtr<CefBrowser> browser,
@@ -239,6 +254,9 @@ public:
   // Create all of RequestDelegateSet objects.
   static void CreateRequestDelegates(RequestDelegateSet& delegates);
 
+  // Returns the full download path for the specified file, or an empty path to
+  // use the default temp directory.
+  std::string GetDownloadPath(const std::string& file_name);
   // The main frame window handle
   CefWindowHandle m_MainHwnd;
 

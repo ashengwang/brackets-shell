@@ -19,6 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
+#include <Shlwapi.h>
 #include "cefclient.h"
 #include "cef_main_window.h"
 #include "cef_registry.h"
@@ -233,6 +234,17 @@ BOOL cef_main_window::HandleCreate()
     CefBrowserHost::CreateBrowser(info,
         static_cast<CefRefPtr<CefClient> >(g_handler),
         ::AppGetInitialURL(), settings, NULL);
+	//add by asheng
+	TCHAR pwd[MAX_PATH];
+	GetCurrentDirectory(MAX_PATH,pwd);
+
+	TCHAR exeFullPath[MAX_PATH]; // MAX_PATH
+	GetModuleFileName(NULL,exeFullPath,MAX_PATH);//µÃµ½³ÌÐòÄ£‰KÃû·Q£¬È«Â·½
+	PathRemoveFileSpec(exeFullPath);
+
+	CefAddWebPluginDirectory(exeFullPath);
+
+	CefRefreshWebPlugins();
 
     return TRUE;
 }

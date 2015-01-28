@@ -5,6 +5,8 @@
 #include "config.h"
 #include "client_handler.h"
 #include <string>
+#include <windows.h>
+#include <shlobj.h> 
 #include "include/cef_browser.h"
 #include "include/cef_frame.h"
 #include "resource.h"
@@ -37,7 +39,10 @@ void ClientHandler::OnTitleChange(CefRefPtr<CefBrowser> browser,
     // The frame window will be the parent of the browser window
     hwnd = GetParent(hwnd);
   }
-  SetWindowText(hwnd, std::wstring(title).c_str());
+  //add by asheng
+  if(0){
+	SetWindowText(hwnd, std::wstring(title).c_str());
+  }
 }
 
 void ClientHandler::SendNotification(NotificationType type) {
@@ -120,6 +125,20 @@ bool ClientHandler::OnKeyEvent(CefRefPtr<CefBrowser> browser,
   return false;
 }
 
+
+std::string ClientHandler::GetDownloadPath(const std::string& file_name) {
+  TCHAR szFolderPath[MAX_PATH];
+  std::string path;
+
+  // Save the file in the user's "My Documents" folder.
+  if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PERSONAL | CSIDL_FLAG_CREATE,
+                                NULL, 0, szFolderPath))) {
+    path = CefString(szFolderPath);
+    path += "\\" + file_name;
+  }
+
+  return path;
+}
 
  void ClientHandler::ComputePopupPlacement(CefWindowInfo& windowInfo)
  {
