@@ -150,8 +150,8 @@ namespace WindowsTaskBar
         ::SHAppBarMessage(ABM_GETTASKBARPOS, &bar);
 
         // We could use MonitorFromWindow but, with multiple monitors and a collapsed auto hide task bar,
-        //  the system will think that a collapsed task bar on the right edge of the left monitor 
-        //  belongs on the left edge of the right monitor so querying monitor info will return the wrong thing.
+        // the system will think that a collapsed task bar on the right edge of the left monitor 
+        // belongs on the left edge of the right monitor so querying monitor info will return the wrong thing.
         RECT tbOther;
         BOOL intersection = ::IntersectRect(&tbOther, &info.rcMonitor, &bar.rc);
 

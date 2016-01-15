@@ -483,7 +483,6 @@ public:
                 
                 responseArgs->SetString(2, files.c_str());
             }
-            
         } else if (message_name == "AddMenu") {
             // Parameters:
             //  0: int32 - callback id
